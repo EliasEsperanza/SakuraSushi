@@ -147,6 +147,7 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
             'Laravel\\Sanctum\\' => 16,
             'Laravel\\Sail\\' => 13,
             'Laravel\\Prompts\\' => 16,
+            'Laravel\\Breeze\\' => 15,
         ),
         'I' => 
         array (
@@ -494,6 +495,10 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         array (
             0 => __DIR__ . '/..' . '/laravel/prompts/src',
         ),
+        'Laravel\\Breeze\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravel/breeze/src',
+        ),
         'Illuminate\\Support\\' => 
         array (
             0 => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Macroable',
@@ -645,7 +650,17 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'Akaunting\\Money\\View\\Components\\Money' => __DIR__ . '/..' . '/akaunting/laravel-money/src/View/Components/Money.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Filament\\Resources\\CuentasContablesResource' => __DIR__ . '/../..' . '/app/Filament/Resources/CuentasContablesResource.php',
+        'App\\Filament\\Resources\\CuentasContablesResource\\Pages\\CreateCuentasContables' => __DIR__ . '/../..' . '/app/Filament/Resources/CuentasContablesResource/Pages/CreateCuentasContables.php',
+        'App\\Filament\\Resources\\CuentasContablesResource\\Pages\\EditCuentasContables' => __DIR__ . '/../..' . '/app/Filament/Resources/CuentasContablesResource/Pages/EditCuentasContables.php',
+        'App\\Filament\\Resources\\CuentasContablesResource\\Pages\\ListCuentasContables' => __DIR__ . '/../..' . '/app/Filament/Resources/CuentasContablesResource/Pages/ListCuentasContables.php',
+        'App\\Filament\\Resources\\TransaccionesResource' => __DIR__ . '/../..' . '/app/Filament/Resources/TransaccionesResource.php',
+        'App\\Filament\\Resources\\TransaccionesResource\\Pages\\CreateTransacciones' => __DIR__ . '/../..' . '/app/Filament/Resources/TransaccionesResource/Pages/CreateTransacciones.php',
+        'App\\Filament\\Resources\\TransaccionesResource\\Pages\\EditTransacciones' => __DIR__ . '/../..' . '/app/Filament/Resources/TransaccionesResource/Pages/EditTransacciones.php',
+        'App\\Filament\\Resources\\TransaccionesResource\\Pages\\ListTransacciones' => __DIR__ . '/../..' . '/app/Filament/Resources/TransaccionesResource/Pages/ListTransacciones.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\CuentaContableController' => __DIR__ . '/../..' . '/app/Http/Controllers/CuentaContableController.php',
+        'App\\Http\\Controllers\\TransaccionController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransaccionController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -656,6 +671,8 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Models\\CuentasContables' => __DIR__ . '/../..' . '/app/Models/CuentasContables.php',
+        'App\\Models\\Transacciones' => __DIR__ . '/../..' . '/app/Models/Transacciones.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -3533,6 +3550,12 @@ class ComposerStaticInit9c491b8531eec05ba41a11d9276a5749
         'Illuminate\\View\\ViewFinderInterface' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewFinderInterface.php',
         'Illuminate\\View\\ViewName' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewName.php',
         'Illuminate\\View\\ViewServiceProvider' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/ViewServiceProvider.php',
+        'Laravel\\Breeze\\BreezeServiceProvider' => __DIR__ . '/..' . '/laravel/breeze/src/BreezeServiceProvider.php',
+        'Laravel\\Breeze\\Console\\InstallCommand' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallCommand.php',
+        'Laravel\\Breeze\\Console\\InstallsApiStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsApiStack.php',
+        'Laravel\\Breeze\\Console\\InstallsBladeStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsBladeStack.php',
+        'Laravel\\Breeze\\Console\\InstallsInertiaStacks' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsInertiaStacks.php',
+        'Laravel\\Breeze\\Console\\InstallsLivewireStack' => __DIR__ . '/..' . '/laravel/breeze/src/Console/InstallsLivewireStack.php',
         'Laravel\\Prompts\\Concerns\\Colors' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Colors.php',
         'Laravel\\Prompts\\Concerns\\Cursor' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Cursor.php',
         'Laravel\\Prompts\\Concerns\\Erase' => __DIR__ . '/..' . '/laravel/prompts/src/Concerns/Erase.php',

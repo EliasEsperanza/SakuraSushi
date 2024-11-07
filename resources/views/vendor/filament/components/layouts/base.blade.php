@@ -108,7 +108,7 @@
     <body
         @class([
             'filament-body min-h-screen overflow-y-auto bg-gray-100 text-gray-900',
-            'dark:bg-gray-900 dark:text-gray-100' => config('filament.dark_mode'),
+            'dark:bg-gray-900' => config('filament.dark_mode'),
         ])
     >
         {{ \Filament\Facades\Filament::renderHook('body.start') }}

@@ -9,7 +9,7 @@
     {{
         $attributes->class([
             'space-y-2 rounded-xl bg-white p-2 shadow',
-            'dark:border-gray-600 dark:bg-gray-800' => config('filament.dark_mode'),
+            'dark:border-gray-600' => config('filament.dark_mode'),
         ])
     }}
 >

@@ -6,7 +6,7 @@
     {{
         $attributes->class([
             'filament-main-topbar sticky top-0 z-10 flex h-16 w-full shrink-0 items-center border-b bg-white',
-            'dark:border-gray-700 dark:bg-gray-800' => config('filament.dark_mode'),
+            'dark:border-gray-700' => config('filament.dark_mode'),
         ])
     }}
 >
