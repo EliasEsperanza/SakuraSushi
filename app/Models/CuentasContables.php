@@ -16,4 +16,8 @@ class CuentasContables extends Model
         'nombre',
         'tipo',
     ];
+
+    public function transacciones(){
+        return $this->hasMany(Transacciones::class,'id_cuenta_contable');
+    }
 }

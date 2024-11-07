@@ -31,7 +31,7 @@
             autocomplete="off"
             @class([
                 'block h-10 w-full rounded-lg border-transparent bg-gray-400/10 pl-10 placeholder-gray-500 outline-none transition duration-75 focus:border-primary-500 focus:bg-white focus:placeholder-gray-400 focus:ring-1 focus:ring-inset focus:ring-primary-500',
-                'dark:bg-gray-700 dark:text-gray-200 dark:placeholder-gray-400' => config('filament.dark_mode'),
+                'dark:bg-gray-700' => config('filament.dark_mode'),
             ])
         />
     </div>

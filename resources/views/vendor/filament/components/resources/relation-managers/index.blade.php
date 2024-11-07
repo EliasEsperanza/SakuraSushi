@@ -35,9 +35,9 @@
                         @class([
                             'flex h-8 items-center whitespace-nowrap rounded-lg px-5 font-medium outline-none focus:ring-2 focus:ring-inset focus:ring-primary-600',
                             'hover:text-gray-800 focus:text-primary-600' => $activeManager !== $tabKey,
-                            'dark:text-gray-400 dark:hover:text-gray-300 dark:focus:text-gray-400' => ($activeManager !== $tabKey) && config('filament.dark_mode'),
+                            'dark:text-gray-400' => ($activeManager !== $tabKey) && config('filament.dark_mode'),
                             'bg-white text-primary-600 shadow' => $activeManager === $tabKey,
-                            'dark:bg-primary-600 dark:text-white' => ($activeManager === $tabKey) && config('filament.dark_mode'),
+                            'dark:bg-primary-600' => ($activeManager === $tabKey) && config('filament.dark_mode'),
                         ])
                     >
                         @if (filled($tabKey))

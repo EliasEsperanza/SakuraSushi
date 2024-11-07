@@ -10,7 +10,7 @@
                     rel="noopener noreferrer"
                     @class([
                         'flex items-end space-x-2 text-gray-800 transition hover:text-primary-500 rtl:space-x-reverse',
-                        'dark:text-primary-500 dark:hover:text-primary-400' => config('filament.dark_mode'),
+                        'dark:text-primary-500' => config('filament.dark_mode'),
                     ])
                 >
                     <svg
@@ -44,7 +44,7 @@
                     rel="noopener noreferrer"
                     @class([
                         'text-gray-600 outline-none hover:text-primary-500 focus:underline',
-                        'dark:text-gray-300 dark:hover:text-primary-500' => config('filament.dark_mode'),
+                        'dark:text-gray-300' => config('filament.dark_mode'),
                     ])
                 >
                     {{ __('filament::widgets/filament-info-widget.buttons.visit_documentation.label') }}
@@ -58,7 +58,7 @@
                     rel="noopener noreferrer"
                     @class([
                         'text-gray-600 outline-none hover:text-primary-500 focus:underline',
-                        'dark:text-gray-300 dark:hover:text-primary-500' => config('filament.dark_mode'),
+                        'dark:text-gray-300' => config('filament.dark_mode'),
                     ])
                 >
                     {{ __('filament::widgets/filament-info-widget.buttons.visit_github.label') }}

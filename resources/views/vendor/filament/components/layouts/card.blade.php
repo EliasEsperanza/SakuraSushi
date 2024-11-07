@@ -7,7 +7,7 @@
     <div
         @class([
             'filament-login-page flex min-h-screen items-center justify-center bg-gray-100 py-12 text-gray-900',
-            'dark:bg-gray-900 dark:text-white' => config('filament.dark_mode'),
+            'dark:bg-gray-900' => config('filament.dark_mode'),
         ])
     >
         <div
@@ -32,7 +32,7 @@
             <div
                 @class([
                     'relative space-y-4 rounded-2xl border border-gray-200 bg-white/50 p-8 shadow-2xl backdrop-blur-xl',
-                    'dark:border-gray-700 dark:bg-gray-900/50' => config('filament.dark_mode'),
+                    'dark:border-gray-700' => config('filament.dark_mode'),
                 ])
             >
                 <div class="flex w-full justify-center">

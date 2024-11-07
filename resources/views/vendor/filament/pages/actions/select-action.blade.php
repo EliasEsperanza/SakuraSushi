@@ -9,7 +9,7 @@
         {{
             $attributes->class([
                 'block h-9 w-full rounded-lg border-gray-300 py-1 text-gray-900 shadow-sm outline-none transition duration-75 invalid:text-gray-400 focus:border-primary-500 focus:ring-1 focus:ring-inset focus:ring-primary-500',
-                'dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:focus:border-primary-500' => config('filament.dark_mode'),
+                'dark:border-gray-600' => config('filament.dark_mode'),
             ])
         }}
     >
