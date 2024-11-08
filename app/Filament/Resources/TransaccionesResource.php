@@ -38,7 +38,10 @@ class TransaccionesResource extends Resource
                 DatePicker::make('fecha')->required(),
                 Textarea::make('descripcion')->required()->maxLength(255),
                 TextInput::make('monto')->numeric()->required(),
-                TextInput::make('tipo_movimiento')->required()->maxLength(10),
+                Select::make('tipo_movimiento')->options([
+                    'debe' => 'Debe',
+                    'haber' => 'Haber',
+                ])->required(), 
             ]);
     }
 
