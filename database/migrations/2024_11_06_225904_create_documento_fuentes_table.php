@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipo'); // EJ: Factura, Cheque
             $table->date('fecha');
-            $table->decimal('monto', 12, 2);
+            $table->decimal('monto', 10, 2);
             $table->string('descripcion')->nullable();
             $table->timestamps();
         });

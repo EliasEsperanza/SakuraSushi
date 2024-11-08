@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Entrada_libro_mayor;
+use App\Models\LibroDiario;
 
 class Transacciones extends Model
 {
@@ -28,21 +28,13 @@ class Transacciones extends Model
     protected static function booted()
     {
         static::created(function ($transaction) {
-            // **Actualizar el saldo de la cuenta de débito**
-            $debitEntry = Entrada_libro_mayor::firstOrCreate(
-                ['id_cuentas_contables' => $transaction->debit_account_id],
-                ['balance' => 0]
-            );
-            $debitEntry->balance += $transaction->amount;
-            $debitEntry->save();
-
-            // **Actualizar el saldo de la cuenta de crédito**
-            $creditEntry = Entrada_libro_mayor::firstOrCreate(
-                ['id_cuentas_contables' => $transaction->credit_account_id],
-                ['balance' => 0]
-            );
-            $creditEntry->balance -= $transaction->amount;
-            $creditEntry->save();
+            LibroDiario::create([
+                'fecha' => $transaction->fecha,
+                'cuenta_contable_id' => $transaction->id_cuenta_contable,
+                'debe' => $transaction->tipo_movimiento === 'debe' ? $transaction->monto : null,
+                'haber' => $transaction->tipo_movimiento === 'haber' ? $transaction->monto : null,
+                'descripcion' => $transaction->descripcion,
+            ]);
         });
     }
 }
