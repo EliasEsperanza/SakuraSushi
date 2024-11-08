@@ -35,7 +35,8 @@ class EntradaLibroMayorResource extends Resource
     {
         return $table
         ->columns([
-            TextColumn::make('id_cuentas_contable')->label('Cuenta Contable')->sortable(),
+            TextColumn::make('id_cuentas_contables')->label('Id Cuenta Contable')->sortable(),
+            TextColumn::make('cuenta_contable_nombre')->label('Nombre Cuenta'),
             TextColumn::make('monto')->label('Saldo')->money('usd',true),
             //TextColumn::make('updated_at')->label('Última Actualización')->sortable(),
         ])

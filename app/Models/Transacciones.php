@@ -32,6 +32,7 @@ class Transacciones extends Model
                 // Busca o crea la entrada en `entrada_libro_mayor` usando el ID de la cuenta contable
                 $entry = Entrada_libro_mayor::firstOrCreate(
                     ['id_cuentas_contables' => $transaction->id_cuenta_contable], // Cambiado a `id_cuenta_contable`
+                    ['cuenta_contable_nombre'=> $transaction->nombre],
                     ['monto' => 0]
                 );
     
