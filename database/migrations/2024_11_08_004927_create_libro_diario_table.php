@@ -16,10 +16,9 @@ return new class extends Migration
             $table->timestamps();
             $table->date('fecha');
             $table->foreignId('cuenta_contable_id')->constrained('cuentas_contables');
-            $table->foreignId('transaccion_id')->constrained('transacciones');
-            $table->decimal('debe', 10, 2);
-            $table->decimal('haber', 10, 2);
-            $table->decimal('saldo', 10, 2);
+            $table->decimal('debe', 10, 12,2)->nullable();
+            $table->decimal('haber', 10, 12,2)->nullable();
+            $table->text('descripcion')->nullable();
         });
     }
 

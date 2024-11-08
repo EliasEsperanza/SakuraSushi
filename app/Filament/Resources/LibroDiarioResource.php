@@ -3,34 +3,51 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LibroDiarioResource\Pages;
-use App\Filament\Resources\LibroDiarioResource\RelationManagers;
 use App\Models\LibroDiario;
+use App\Models\CuentasContables;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Textarea;
-use App\Models\CuentasContables;
-use App\Models\Transacciones;
 
 class LibroDiarioResource extends Resource
 {
     protected static ?string $model = LibroDiario::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationLabel = 'Libro Diario';
+    protected static ?string $pluralLabel = 'Libros Diarios';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                
+                Forms\Components\DatePicker::make('fecha')
+                    ->label('Fecha')
+                    ->required(),
+
+                Forms\Components\Select::make('cuenta_contable_id')
+                    ->label('Cuenta Contable')
+                    ->options(CuentasContables::all()->pluck('nombre', 'id'))
+                    ->searchable()
+                    ->required(),
+
+                Forms\Components\Textarea::make('descripcion')
+                    ->label('Descripción')
+                    ->required(),
+
+                Forms\Components\TextInput::make('debe')
+                    ->label('Debe')
+                    ->numeric()
+                    ->required()
+                    ->default(0),
+
+                Forms\Components\TextInput::make('haber')
+                    ->label('Haber')
+                    ->numeric()
+                    ->required()
+                    ->default(0),
             ]);
     }
 
@@ -38,16 +55,30 @@ class LibroDiarioResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('fecha')->date()->sortable(),
-                TextColumn::make('cuentaContable.nombre')->label('Cuenta Contable')->sortable(),
-                TextColumn::make('transaccion.descripcion')->label('Transacción')->sortable(),
-                TextColumn::make('debe')->money('usd', true),
-                TextColumn::make('haber')->money('usd', true),
-                TextColumn::make('saldo')->money('usd', true),
+                Tables\Columns\TextColumn::make('fecha')
+                    ->label('Fecha')
+                    ->date(),
+
+                Tables\Columns\TextColumn::make('cuentaContable.nombre')
+                    ->label('Cuenta Contable'),
+
+                Tables\Columns\TextColumn::make('descripcion')
+                    ->label('Descripción')
+                    ->limit(50),
+
+                Tables\Columns\TextColumn::make('debe')
+                    ->label('Debe')
+                    ->money('usd',true),
+
+                Tables\Columns\TextColumn::make('haber')
+                    ->label('Haber')
+                    ->money('usd',true),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
+                    ->dateTime(),
             ])
-            ->filters([
-                
-            ])
+            ->filters([])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -55,14 +86,12 @@ class LibroDiarioResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
+
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
-    
+
     public static function getPages(): array
     {
         return [
@@ -70,5 +99,5 @@ class LibroDiarioResource extends Resource
             'create' => Pages\CreateLibroDiario::route('/create'),
             'edit' => Pages\EditLibroDiario::route('/{record}/edit'),
         ];
-    }    
+    }
 }
