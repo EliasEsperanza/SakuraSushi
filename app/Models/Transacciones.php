@@ -28,21 +28,26 @@ class Transacciones extends Model
     protected static function booted()
     {
         static::created(function ($transaction) {
-            // **Actualizar el saldo de la cuenta de débito**
-            $debitEntry = Entrada_libro_mayor::firstOrCreate(
-                ['id_cuentas_contables' => $transaction->debit_account_id],
-                ['balance' => 0]
-            );
-            $debitEntry->balance += $transaction->amount;
-            $debitEntry->save();
-
-            // **Actualizar el saldo de la cuenta de crédito**
-            $creditEntry = Entrada_libro_mayor::firstOrCreate(
-                ['id_cuentas_contables' => $transaction->credit_account_id],
-                ['balance' => 0]
-            );
-            $creditEntry->balance -= $transaction->amount;
-            $creditEntry->save();
+            if ($transaction->id_cuenta_contable) {
+                // Busca o crea la entrada en `entrada_libro_mayor` usando el ID de la cuenta contable
+                $entry = Entrada_libro_mayor::firstOrCreate(
+                    ['id_cuentas_contables' => $transaction->id_cuenta_contable], // Cambiado a `id_cuenta_contable`
+                    ['monto' => 0]
+                );
+    
+                // Ajusta el balance basado en el tipo de movimiento
+                if ($transaction->tipo_movimiento === 'Debe' || $transaction->tipo_movimiento === 'debe') {
+                    $entry->monto += $transaction->monto;
+                } elseif ($transaction->tipo_movimiento === 'Haber' || $transaction->tipo_movimiento === 'haber' ) {
+                    $entry->monto -= $transaction->monto;
+                }
+    
+                $entry->save();
+            } else {
+                // Si `id_cuenta_contable` es NULL, muestra un mensaje de error o maneja el caso
+                throw new \Exception("El campo 'id_cuenta_contable' es requerido para crear una entrada en el libro mayor.");
+            }
+    
         });
     }
 }

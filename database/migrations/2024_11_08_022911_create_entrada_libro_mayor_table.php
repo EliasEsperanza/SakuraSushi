@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('Entrada_libro_mayor', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_cuentas_contables')->constrained('cuentas_contables')->onDelete('cascade');
-            $table->decimal('balance', 15, 2)->default(0);
+            $table->foreignId('id_cuentas_contables')->default(0)->constrained('cuentas_contables')->onDelete('cascade');
+            $table->decimal('monto', 10, 2)->default(0);
             $table->timestamps();
         });
+        
     }
 
     /**

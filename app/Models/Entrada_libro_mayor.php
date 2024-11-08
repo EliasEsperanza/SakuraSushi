@@ -9,9 +9,9 @@ class Entrada_libro_mayor extends Model
 {
     use HasFactory;
     protected $table = 'Entrada_libro_mayor';
-    protected $fillable =[ 'cuenta_contable_id', 'balance'];
+    protected $fillable =[ 'id_cuentas_contables', 'monto'];
 
-    public function Contable(){
-        return $this->belongsTo(CuentasContables::class);
+    public function cuentaContable(){
+        return $this->belongsTo(CuentasContables::class, 'id_cuentas_contables');
     }
 }
