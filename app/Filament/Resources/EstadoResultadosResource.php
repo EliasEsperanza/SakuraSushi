@@ -37,6 +37,8 @@ class EstadoResultadosResource extends Resource
                 TextColumn::make('tipo')->label('Tipo')->sortable(),
                 TextColumn::make('monto')->label('Monto'),
             ])
+            ->rows(static::getEstadoResultadosData())
+            
             ->filters([
                 //
             ])
@@ -47,6 +49,13 @@ class EstadoResultadosResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
+    
+    protected static function getEstadoResultadosData()
+    {
+        // Llama a la función que devuelve los datos calculados para el estado de resultados
+        return EstadoResultados::obtenerResultados();
+    }
+
     
     public static function getRelations(): array
     {

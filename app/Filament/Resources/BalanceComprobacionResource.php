@@ -39,6 +39,7 @@ class BalanceComprobacionResource extends Resource
                 TextColumn::make('saldo_debe')->label('Saldo en Debe'),
                 TextColumn::make('saldo_haber')->label('Saldo en Haber'),
             ])
+            ->query(static::getBalanceDataQuery())
             ->filters([
                 //
             ])
@@ -50,6 +51,15 @@ class BalanceComprobacionResource extends Resource
             ]);
     }
     
+    protected static function getBalanceDataQuery()
+    {
+        // Genera datos a partir de la función `obtenerBalance` en el modelo `BalanceComprobacion`
+        $data = BalanceComprobacion::obtenerBalance();
+
+        // Devuelve una colección de datos para que Filament los muestre como registros
+        return collect($data);
+    }
+
     public static function getRelations(): array
     {
         return [

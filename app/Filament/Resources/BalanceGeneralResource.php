@@ -18,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 class BalanceGeneralResource extends Resource
 {
  
+    protected static ?string $model = BalanceGeneral::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
@@ -38,6 +39,7 @@ class BalanceGeneralResource extends Resource
                 TextColumn::make('nombre')->label('Nombre de la Cuenta'),
                 TextColumn::make('saldo')->label('Saldo'),
             ])
+            ->rows(static::getBalanceGeneralData()) 
             ->filters([
                 //
             ])
@@ -55,7 +57,11 @@ class BalanceGeneralResource extends Resource
             //
         ];
     }
-    
+    protected static function getBalanceGeneralData()
+    {
+        // Llama a la función que devuelve los datos calculados para el balance general
+        return BalanceGeneral::obtenerBalance();
+    }
     public static function getPages(): array
     {
         return [
