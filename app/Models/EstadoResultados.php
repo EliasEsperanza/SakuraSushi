@@ -5,33 +5,53 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CuentasContables;
-
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 class EstadoResultados extends Model
 {
     use HasFactory;
-    public static function obtenerResultados()
+
+    protected $table = 'estado_resultados'; 
+    protected $fillable = [
+        'nombre',
+        'tipo',
+        'monto',
+    ];
+
+    public static function booted()
     {
-        // Obtenemos las cuentas de Ingresos y Gastos
-        $ingresos = CuentasContables::where('tipo', 'ingreso')->with('transacciones')->get();
-        $gastos = CuentasContables::whereIn('tipo', ['costo', 'gasto'])->with('transacciones')->get();
+        static::creating(function ($estadoResultados) {
+            $ingresos = CuentasContables::where('tipo', 'ingreso')->with('transacciones')->get();
+            $gastos = CuentasContables::whereIn('tipo', ['costo', 'gasto'])->with('transacciones')->get();
 
-        // Calculamos el total de ingresos
-        $totalIngresos = $ingresos->sum(function ($cuenta) {
-            return $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
+            $totalIngresos = $ingresos->sum(function ($cuenta) {
+                return $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
+            });
+
+            $totalGastos = $gastos->sum(function ($cuenta) {
+                return $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
+            });
+
+            $utilidadNeta = $totalIngresos - $totalGastos;
+
+            $estadoResultados->create([
+                'nombre' => 'Ingresos',
+                'tipo' => 'ingreso',
+                'monto' => $totalIngresos,
+            ]);
+
+            $estadoResultados->create([
+                'nombre' => 'Gastos',
+                'tipo' => 'gasto',
+                'monto' => $totalGastos,
+            ]);
+
+            $estadoResultados->create([
+                'nombre' => 'Utilidad Neta',
+                'tipo' => 'resultado',
+                'monto' => $utilidadNeta,
+            ]);
         });
-
-        // Calculamos el total de gastos y costos
-        $totalGastos = $gastos->sum(function ($cuenta) {
-            return $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
-        });
-
-        // Calculamos la utilidad o pérdida neta
-        $utilidadNeta = $totalIngresos - $totalGastos;
-
-        return [
-            'ingresos' => $totalIngresos,
-            'gastos' => $totalGastos,
-            'utilidad_neta' => $utilidadNeta,
-        ];
     }
+    
 }

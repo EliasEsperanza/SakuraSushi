@@ -9,30 +9,42 @@ use App\Models\CuentasContables;
 class BalanceGeneral extends Model
 {
     use HasFactory;
-    public static function obtenerBalance()
+    
+    protected $table = 'balance_generals'; 
+    protected $fillable = [
+        'codigo',
+        'nombre',
+        'tipo',
+        'saldo_final',
+    ];
+    public function cuentaContable()
+{
+    return $this->belongsTo(CuentasContables::class, 'id_cuenta_contable');
+}
+    
+    public static function booted()
     {
-        // Obtenemos las cuentas agrupadas por Activos, Pasivos y Patrimonio
-        $activos = CuentasContables::where('tipo', 'activo')->with('transacciones')->get();
-        $pasivos = CuentasContables::where('tipo', 'pasivo')->with('transacciones')->get();
-        $patrimonio = CuentasContables::where('tipo', 'patrimonio')->with('transacciones')->get();
+        static::creating(function ($balanceGeneral) {
+            $cuentas = [
+                'activo' => CuentasContables::where('tipo', 'activo')->with('transacciones')->get(),
+                'pasivo' => CuentasContables::where('tipo', 'pasivo')->with('transacciones')->get(),
+                'patrimonio' => CuentasContables::where('tipo', 'patrimonio')->with('transacciones')->get(),
+            ];
 
-        // Función para calcular el saldo final de cada tipo de cuenta
-        $calcularSaldo = function ($cuentas) {
-            return $cuentas->map(function ($cuenta) {
-                $debe = $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
-                $haber = $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
-                return [
-                    'codigo' => $cuenta->codigo,
-                    'nombre' => $cuenta->nombre,
-                    'saldo' => $debe - $haber,
-                ];
-            });
-        };
+            foreach ($cuentas as $tipo => $cuentasTipo) {
+                foreach ($cuentasTipo as $cuenta) {
+                    $debe = $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
+                    $haber = $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
+                    $saldo_final = $debe - $haber;
 
-        return [
-            'activos' => $calcularSaldo($activos),
-            'pasivos' => $calcularSaldo($pasivos),
-            'patrimonio' => $calcularSaldo($patrimonio),
-        ];
+                    $balanceGeneral->create([
+                        'codigo' => $cuenta->codigo,
+                        'nombre' => $cuenta->nombre,
+                        'tipo' => $tipo,
+                        'saldo_final' => $saldo_final,
+                    ]);
+                }
+            }
+        });
     }
 }

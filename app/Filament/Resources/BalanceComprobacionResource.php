@@ -13,7 +13,9 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
-
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextArea;
 
 class BalanceComprobacionResource extends Resource
 {
@@ -24,9 +26,31 @@ class BalanceComprobacionResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
-            ]);
+        ->schema([
+            Select::make('id_cuenta_contable')
+                ->label('Cuenta Contable')
+                ->relationship('cuentaContable', 'nombre')
+                ->required(),
+            TextInput::make('codigo')
+                ->label('Código de Cuenta')
+                ->required(),
+            TextInput::make('nombre')
+                ->label('Nombre de la Cuenta')
+                ->required(),
+            TextInput::make('tipo')
+                ->label('Tipo de Cuenta')
+                ->required(),
+            TextInput::make('saldo_debe')
+                ->label('Saldo Debe')
+                ->numeric()
+                ->required()
+                ->default(0),
+            TextInput::make('saldo_haber')
+                ->label('Saldo Haber')
+                ->numeric()
+                ->required()
+                ->default(0),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -39,7 +63,6 @@ class BalanceComprobacionResource extends Resource
                 TextColumn::make('saldo_debe')->label('Saldo en Debe'),
                 TextColumn::make('saldo_haber')->label('Saldo en Haber'),
             ])
-            ->query(static::getBalanceDataQuery())
             ->filters([
                 //
             ])
@@ -51,15 +74,6 @@ class BalanceComprobacionResource extends Resource
             ]);
     }
     
-    protected static function getBalanceDataQuery()
-    {
-        // Genera datos a partir de la función `obtenerBalance` en el modelo `BalanceComprobacion`
-        $data = BalanceComprobacion::obtenerBalance();
-
-        // Devuelve una colección de datos para que Filament los muestre como registros
-        return collect($data);
-    }
-
     public static function getRelations(): array
     {
         return [

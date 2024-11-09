@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('balance_comprobacions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_cuenta_contable')->constrained('cuentas_contables')->onDelete('cascade');
             $table->string('codigo')->nullable();
             $table->string('nombre')->nullable();
             $table->string('tipo')->nullable();

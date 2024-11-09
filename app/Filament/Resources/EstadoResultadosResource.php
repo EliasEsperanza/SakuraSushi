@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use App\Models\CuentasContables;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
 
 class EstadoResultadosResource extends Resource
 {
@@ -25,7 +27,21 @@ class EstadoResultadosResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('nombre')
+                ->label('Nombre de la Cuenta')
+                ->required(),
+            Select::make('tipo')
+                ->label('Tipo de Cuenta')
+                ->options([
+                    'ingreso' => 'Ingreso',
+                    'gasto' => 'Gasto',
+                ])
+                ->required(),
+            TextInput::make('monto')
+                ->label('Monto')
+                ->numeric()
+                ->required()
+                ->default(0),
             ]);
     }
 
@@ -37,8 +53,6 @@ class EstadoResultadosResource extends Resource
                 TextColumn::make('tipo')->label('Tipo')->sortable(),
                 TextColumn::make('monto')->label('Monto'),
             ])
-            ->rows(static::getEstadoResultadosData())
-            
             ->filters([
                 //
             ])
@@ -49,13 +63,6 @@ class EstadoResultadosResource extends Resource
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
-    
-    protected static function getEstadoResultadosData()
-    {
-        // Llama a la función que devuelve los datos calculados para el estado de resultados
-        return EstadoResultados::obtenerResultados();
-    }
-
     
     public static function getRelations(): array
     {

@@ -8,26 +8,33 @@ use App\Models\CuentasContables;
 
 class BalanceComprobacion extends Model
 {
-    use HasFactory;
+    use HasFactory; 
+    protected $table = 'balance_comprobacions';
 
+    protected $fillable = ['codigo', 'nombre', 'tipo', 'saldo_debe', 'saldo_haber'];
+    
+    public function cuentaContable()
+{
+    return $this->belongsTo(CuentasContables::class, 'id_cuenta_contable');
+}
 
-    public static function obtenerBalance()
+    public static function booted()
     {
-        // Obtenemos todas las cuentas contables
-        $cuentas = CuentasContables::with('transacciones')->get();
+        static::creating(function ($balanceComprobacion) {
+            $cuentas = CuentasContables::with('transacciones')->get();
 
-        // Calculamos el saldo total de cada cuenta en el Debe y el Haber
-        return $cuentas->map(function ($cuenta) {
-            $debe = $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
-            $haber = $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
-            
-            return [
-                'codigo' => $cuenta->codigo,
-                'nombre' => $cuenta->nombre,
-                'tipo' => $cuenta->tipo,
-                'saldo_debe' => $debe,
-                'saldo_haber' => $haber,
-            ];
+            foreach ($cuentas as $cuenta) {
+                $debe = $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
+                $haber = $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
+
+                $balanceComprobacion->create([
+                    'codigo' => $cuenta->codigo,
+                    'nombre' => $cuenta->nombre,
+                    'tipo' => $cuenta->tipo,
+                    'saldo_debe' => $debe,
+                    'saldo_haber' => $haber,
+                ]);
+            }
         });
     }
 }
