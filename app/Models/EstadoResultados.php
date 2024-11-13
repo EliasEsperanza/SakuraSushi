@@ -18,40 +18,42 @@ class EstadoResultados extends Model
         'monto',
     ];
 
+    
+    
+    
     public static function booted()
     {
-        static::creating(function ($estadoResultados) {
-            $ingresos = CuentasContables::where('tipo', 'ingreso')->with('transacciones')->get();
-            $gastos = CuentasContables::whereIn('tipo', ['costo', 'gasto'])->with('transacciones')->get();
+        $totalIngresos = CuentasContables::where('tipo', 'Ingreso')
+            ->join('transacciones', 'cuentas_contables.id', '=', 'transacciones.id_cuenta_contable')
+            ->where('transacciones.tipo_movimiento', 'haber')
+            ->sum('transacciones.monto');
 
-            $totalIngresos = $ingresos->sum(function ($cuenta) {
-                return $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
-            });
+        $totalGastos = CuentasContables::whereIn('tipo', ['costo', 'Gasto'])
+            ->join('transacciones', 'cuentas_contables.id', '=', 'transacciones.id_cuenta_contable')
+            ->where('transacciones.tipo_movimiento', 'debe')
+            ->sum('transacciones.monto');
 
-            $totalGastos = $gastos->sum(function ($cuenta) {
-                return $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
-            });
+        $utilidadNeta = $totalIngresos - $totalGastos;
 
-            $utilidadNeta = $totalIngresos - $totalGastos;
+        // Limpiar la tabla y agregar registros actualizados
+        self::truncate();
 
-            $estadoResultados->create([
+        self::insert([
+            [
                 'nombre' => 'Ingresos',
                 'tipo' => 'ingreso',
                 'monto' => $totalIngresos,
-            ]);
-
-            $estadoResultados->create([
+            ],
+            [
                 'nombre' => 'Gastos',
                 'tipo' => 'gasto',
                 'monto' => $totalGastos,
-            ]);
-
-            $estadoResultados->create([
+            ],
+            [
                 'nombre' => 'Utilidad Neta',
                 'tipo' => 'resultado',
                 'monto' => $utilidadNeta,
-            ]);
-        });
+            ],
+        ]);
     }
-    
 }

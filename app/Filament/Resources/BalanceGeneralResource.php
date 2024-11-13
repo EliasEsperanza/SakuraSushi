@@ -55,7 +55,7 @@ class BalanceGeneralResource extends Resource
                 TextColumn::make('tipo')->label('Tipo de Cuenta')->sortable(),
                 TextColumn::make('codigo')->label('Código de Cuenta'),
                 TextColumn::make('nombre')->label('Nombre de la Cuenta'),
-                TextColumn::make('saldo')->label('Saldo'),
+                TextColumn::make('saldo_final')->label('Saldo'),
             ])
             ->filters([
                 //
