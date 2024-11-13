@@ -24,27 +24,25 @@ class BalanceGeneral extends Model
     
     public static function booted()
     {
-        static::creating(function ($balanceGeneral) {
-            $cuentas = [
-                'activo' => CuentasContables::where('tipo', 'activo')->with('transacciones')->get(),
-                'pasivo' => CuentasContables::where('tipo', 'pasivo')->with('transacciones')->get(),
-                'patrimonio' => CuentasContables::where('tipo', 'patrimonio')->with('transacciones')->get(),
-            ];
+        $cuentas = [
+            'activo' => CuentasContables::where('tipo', 'Activo')->with('transacciones')->get(),
+            'pasivo' => CuentasContables::where('tipo', 'Pasivo')->with('transacciones')->get(),
+            'patrimonio' => CuentasContables::whereIn('tipo', ['Patrimonio', 'Capital'])->with('transacciones')->get(),
+        ];
+        self::truncate();
+        foreach ($cuentas as $tipo => $cuentasTipo) {
+            foreach ($cuentasTipo as $cuenta) {
+                $debe = $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
+                $haber = $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
+                $saldo_final = $debe - $haber;
 
-            foreach ($cuentas as $tipo => $cuentasTipo) {
-                foreach ($cuentasTipo as $cuenta) {
-                    $debe = $cuenta->transacciones()->where('tipo_movimiento', 'debe')->sum('monto');
-                    $haber = $cuenta->transacciones()->where('tipo_movimiento', 'haber')->sum('monto');
-                    $saldo_final = $debe - $haber;
-
-                    $balanceGeneral->create([
-                        'codigo' => $cuenta->codigo,
-                        'nombre' => $cuenta->nombre,
-                        'tipo' => $tipo,
-                        'saldo_final' => $saldo_final,
-                    ]);
-                }
+                self::insert([
+                    'codigo' => $cuenta->codigo,
+                    'nombre' => $cuenta->nombre,
+                    'tipo' => $tipo,
+                    'saldo_final' => $saldo_final,
+                ]);
             }
-        });
+        }
     }
 }

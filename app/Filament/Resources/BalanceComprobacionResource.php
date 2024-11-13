@@ -26,7 +26,7 @@ class BalanceComprobacionResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-        ->schema([
+        ->schema([/*
             Select::make('id_cuenta_contable')
                 ->label('Cuenta Contable')
                 ->relationship('cuentaContable', 'nombre')
@@ -49,7 +49,7 @@ class BalanceComprobacionResource extends Resource
                 ->label('Saldo Haber')
                 ->numeric()
                 ->required()
-                ->default(0),
+                ->default(0),*/
         ]);
     }
 
@@ -62,6 +62,7 @@ class BalanceComprobacionResource extends Resource
                 TextColumn::make('tipo')->label('Tipo de Cuenta'),
                 TextColumn::make('saldo_debe')->label('Saldo en Debe'),
                 TextColumn::make('saldo_haber')->label('Saldo en Haber'),
+                TextColumn::make('balanceado')->label('Esta balanceado?')
             ])
             ->filters([
                 //
